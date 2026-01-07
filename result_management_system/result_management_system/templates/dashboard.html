@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Result Management System{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="dashboard-header">
+        <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+        <p>Welcome back, {{ session.username }}!</p>
+    </div>
+    
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #4CAF50;">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ student_count }}</h3>
+                <p>Total Students</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #2196F3;">
+                <i class="fas fa-chart-bar"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ result_count }}</h3>
+                <p>Results Recorded</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #FF9800;">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ session.role|capitalize }}</h3>
+                <p>Your Role</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="recent-results">
+        <h2><i class="fas fa-history"></i> Recent Results</h2>
+        
+        {% if recent_results %}
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Subject</th>
+                        <th>Marks</th>
+                        <th>Grade</th>
+                        <th>Semester</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in recent_results %}
+                    <tr>
+                        <td>{{ result.student_id }}</td>
+                        <td>{{ result.name }}</td>
+                        <td>{{ result.subject }}</td>
+                        <td>{{ result.marks }}/{{ result.max_marks }}</td>
+                        <td><span class="grade-badge grade-{{ result.grade }}">{{ result.grade }}</span></td>
+                        <td>{{ result.semester }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-clipboard-list"></i>
+            <p>No results recorded yet. Start by adding students and results!</p>
+        </div>
+        {% endif %}
+        
+        <div class="quick-actions">
+            <a href="{{ url_for('add_student') }}" class="btn-action">
+                <i class="fas fa-user-plus"></i> Add New Student
+            </a>
+            <a href="{{ url_for('add_result') }}" class="btn-action">
+                <i class="fas fa-plus-circle"></i> Add New Result
+            </a>
+            <a href="{{ url_for('view_results') }}" class="btn-action">
+                <i class="fas fa-list"></i> View All Results
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

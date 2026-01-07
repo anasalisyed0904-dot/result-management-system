@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Result Management System{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    {% if session.user_id and request.path != '/login' %}
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>ResultSys</span>
+            </div>
+            <div class="nav-links">
+                <a href="{{ url_for('dashboard') }}" {% if request.path == '/dashboard' %}class="active"{% endif %}>
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="{{ url_for('add_student') }}" {% if request.path == '/add_student' %}class="active"{% endif %}>
+                    <i class="fas fa-user-plus"></i> Add Student
+                </a>
+                <a href="{{ url_for('add_result') }}" {% if request.path == '/add_result' %}class="active"{% endif %}>
+                    <i class="fas fa-plus-circle"></i> Add Result
+                </a>
+                <a href="{{ url_for('view_results') }}" {% if request.path == '/view_results' %}class="active"{% endif %}>
+                    <i class="fas fa-list"></i> View Results
+                </a>
+                <a href="{{ url_for('logout') }}" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout ({{ session.username }})
+                </a>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+    
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                        <span class="close-alert">&times;</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </main>
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

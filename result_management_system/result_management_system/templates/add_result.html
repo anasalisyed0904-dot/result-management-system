@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Add Result - Result Management System{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <h1><i class="fas fa-plus-circle"></i> Add New Result</h1>
+        <p>Enter student result information below</p>
+    </div>
+    
+    <form method="POST" action="{{ url_for('add_result') }}" class="form-card">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="student_id"><i class="fas fa-user-graduate"></i> Student *</label>
+                <select id="student_id" name="student_id" required>
+                    <option value="">Select Student</option>
+                    {% for student in students %}
+                    <option value="{{ student.student_id }}">{{ student.name }} ({{ student.student_id }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="subject"><i class="fas fa-book"></i> Subject *</label>
+                <input type="text" id="subject" name="subject" placeholder="e.g., Mathematics" required>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="marks"><i class="fas fa-chart-line"></i> Marks Obtained *</label>
+                <input type="number" id="marks" name="marks" min="0" max="100" placeholder="e.g., 85" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="max_marks"><i class="fas fa-chart-bar"></i> Maximum Marks *</label>
+                <input type="number" id="max_marks" name="max_marks" value="100" min="1" required>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="semester"><i class="fas fa-calendar-alt"></i> Semester *</label>
+                <select id="semester" name="semester" required>
+                    <option value="">Select Semester</option>
+                    <option value="Semester 1">Semester 1</option>
+                    <option value="Semester 2">Semester 2</option>
+                    <option value="Semester 3">Semester 3</option>
+                    <option value="Semester 4">Semester 4</option>
+                    <option value="Semester 5">Semester 5</option>
+                    <option value="Semester 6">Semester 6</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="year"><i class="fas fa-calendar"></i> Year *</label>
+                <input type="number" id="year" name="year" min="2000" max="2030" value="2023" required>
+            </div>
+        </div>
+        
+        <div class="form-preview">
+            <h3><i class="fas fa-eye"></i> Grade Preview</h3>
+            <div class="preview-info">
+                <p>Grade will be calculated automatically based on percentage:</p>
+                <ul class="grade-info">
+                    <li><span class="grade-badge grade-A+">A+</span> 90% and above</li>
+                    <li><span class="grade-badge grade-A">A</span> 80% - 89%</li>
+                    <li><span class="grade-badge grade-B">B</span> 70% - 79%</li>
+                    <li><span class="grade-badge grade-C">C</span> 60% - 69%</li>
+                    <li><span class="grade-badge grade-D">D</span> 50% - 59%</li>
+                    <li><span class="grade-badge grade-F">F</span> Below 50%</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-save"></i> Save Result
+            </button>
+            <a href="{{ url_for('dashboard') }}" class="btn-cancel">
+                <i class="fas fa-times"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

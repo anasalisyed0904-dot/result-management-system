@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}View Results - Result Management System{% endblock %}
+
+{% block content %}
+<div class="results-container">
+    <div class="results-header">
+        <h1><i class="fas fa-list"></i> View Results</h1>
+        <p>Filter and view student results</p>
+    </div>
+    
+    <div class="filter-card">
+        <h3><i class="fas fa-filter"></i> Filter Results</h3>
+        <form method="GET" action="{{ url_for('view_results') }}" class="filter-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="student_id">Student</label>
+                    <select id="student_id" name="student_id">
+                        <option value="">All Students</option>
+                        {% for student in students %}
+                        <option value="{{ student.student_id }}" {% if filters.student_id == student.student_id %}selected{% endif %}>
+                            {{ student.name }} ({{ student.student_id }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="semester">Semester</label>
+                    <select id="semester" name="semester">
+                        <option value="">All Semesters</option>
+                        {% for semester in semesters %}
+                        <option value="{{ semester.semester }}" {% if filters.semester == semester.semester %}selected{% endif %}>
+                            {{ semester.semester }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="year">Year</label>
+                    <select id="year" name="year">
+                        <option value="">All Years</option>
+                        {% for year in years %}
+                        <option value="{{ year.year }}" {% if filters.year == year.year|string %}selected{% endif %}>
+                            {{ year.year }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
+            <div class="filter-actions">
+                <button type="submit" class="btn-filter">
+                    <i class="fas fa-search"></i> Apply Filters
+                </button>
+                <a href="{{ url_for('view_results') }}" class="btn-cancel">
+                    <i class="fas fa-redo"></i> Clear Filters
+                </a>
+            </div>
+        </form>
+    </div>
+    
+    <div class="results-list">
+        <h3><i class="fas fa-chart-bar"></i> Results List</h3>
+        
+        {% if results %}
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>Subject</th>
+                        <th>Marks</th>
+                        <th>Percentage</th>
+                        <th>Grade</th>
+                        <th>Semester</th>
+                        <th>Year</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                    <tr>
+                        <td>{{ result.student_id }}</td>
+                        <td>{{ result.name }}</td>
+                        <td>{{ result.class }}</td>
+                        <td>{{ result.subject }}</td>
+                        <td>{{ result.marks }}/{{ result.max_marks }}</td>
+                        <td>{{ "%.1f"|format((result.marks / result.max_marks) * 100) }}%</td>
+                        <td><span class="grade-badge grade-{{ result.grade }}">{{ result.grade }}</span></td>
+                        <td>{{ result.semester }}</td>
+                        <td>{{ result.year }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="results-summary">
+            <p><strong>Total Records:</strong> {{ results|length }} result(s) found</p>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-clipboard-list"></i>
+            <p>No results found with the current filters.</p>
+            <a href="{{ url_for('add_result') }}" class="btn-action">
+                <i class="fas fa-plus-circle"></i> Add New Result
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

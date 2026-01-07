@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Database Viewer - Admin{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1><i class="fas fa-database"></i> Database Viewer (Admin Only)</h1>
+        <p>View all database contents</p>
+    </div>
+    
+    <div class="data-section">
+        <h2><i class="fas fa-users"></i> Users Table</h2>
+        {% if users %}
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.password }}</td>
+                        <td>{{ user.role }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="no-data">No users found</p>
+        {% endif %}
+    </div>
+    
+    <div class="data-section">
+        <h2><i class="fas fa-user-graduate"></i> Students Table</h2>
+        {% if students %}
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.id }}</td>
+                        <td>{{ student.student_id }}</td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.class }}</td>
+                        <td>{{ student.email }}</td>
+                        <td>{{ student.phone }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="no-data">No students found</p>
+        {% endif %}
+    </div>
+    
+    <div class="data-section">
+        <h2><i class="fas fa-chart-bar"></i> Results Table</h2>
+        {% if results %}
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Student ID</th>
+                        <th>Subject</th>
+                        <th>Marks</th>
+                        <th>Max Marks</th>
+                        <th>Grade</th>
+                        <th>Semester</th>
+                        <th>Year</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                    <tr>
+                        <td>{{ result.id }}</td>
+                        <td>{{ result.student_id }}</td>
+                        <td>{{ result.subject }}</td>
+                        <td>{{ result.marks }}</td>
+                        <td>{{ result.max_marks }}</td>
+                        <td>{{ result.grade }}</td>
+                        <td>{{ result.semester }}</td>
+                        <td>{{ result.year }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="no-data">No results found</p>
+        {% endif %}
+    </div>
+    
+    <div class="admin-actions">
+        <a href="{{ url_for('dashboard') }}" class="btn-action">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+        <a href="{{ url_for('admin_view_data') }}" class="btn-action">
+            <i class="fas fa-sync-alt"></i> Refresh Data
+        </a>
+    </div>
+</div>
+{% endblock %}

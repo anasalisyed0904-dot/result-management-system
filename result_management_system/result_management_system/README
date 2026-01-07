@@ -1,0 +1,30 @@
+# Student Result Management System
+
+A simple, web-based application for managing student results built with Flask (Python) and SQLite.
+
+## Features
+- User authentication with role-based access
+- Add, view, and manage student records
+- Add and view student results with automatic grade calculation
+- Filter results by student, semester, and year
+- Clean, responsive user interface
+
+## Deployment on AWS Free Tier
+
+### Prerequisites
+- AWS Free Tier account
+- EC2 instance (Ubuntu 20.04 LTS recommended)
+- Basic knowledge of SSH and Linux commands
+
+### Step-by-Step Deployment
+
+1. **Launch an EC2 Instance**
+   - Go to AWS Console → EC2 → Launch Instance
+   - Choose Ubuntu Server 20.04 LTS (Free Tier eligible)
+   - Select t2.micro instance type
+   - Configure security group to allow HTTP (port 80), HTTPS (port 443), and SSH (port 22)
+   - Launch instance with a key pair
+
+2. **Connect to EC2 Instance**
+   ```bash
+   ssh -i your-key.pem ubuntu@your-ec2-public-ip
